@@ -129,6 +129,17 @@
       section {
         margin: 3.2rem 0;
         scroll-margin-top: clamp(5rem, 10vh, 6.5rem);
+        position: relative;
+        padding-left: 1.5rem;
+        border-left: 3px solid var(--accent);
+        padding-left: 2rem;
+        margin-left: -1.5rem;
+        transition: border-color 0.3s ease;
+      }
+
+      /* ホバー時のアクセント */
+      section:hover {
+        border-left-color: var(--text-soft);
       }
 
       h1,
