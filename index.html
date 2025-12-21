@@ -126,6 +126,138 @@
         padding: 2rem 0 4rem;
       }
 
+      /* Grid layout for news section */
+      .grid-container {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 2rem;
+        align-items: start;
+      }
+
+      .news-content {
+        width: 100%;
+      }
+
+      @media (max-width: 768px) {
+        .grid-container {
+          grid-template-columns: 1fr;
+        }
+        
+        .news-details {
+          order: -1;
+          margin-bottom: 2rem;
+        }
+      }
+
+      /* Hero section with two columns */
+      .hero {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        align-items: start;
+        margin-bottom: 3rem;
+      }
+
+      .hero > div:first-child {
+        padding-right: 1rem;
+      }
+
+      /* Paper highlight section */
+      /* News details section - for paper highlights */
+      .news-details {
+        display: grid;
+        gap: 1rem;
+        background: var(--surface);
+        padding: 1rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        margin-top: 1rem;
+      }
+
+      .news-details h3 {
+        font-size: 1.2rem;
+        margin: 0 0 0.15rem 0;
+        color: var(--accent);
+      }
+
+      .news-details img {
+        width: 100%;
+        border-radius: 4px;
+        margin: 0.05rem 0 0.05rem 0;
+        border: 1px solid var(--border);
+      }
+
+      .news-details p {
+        margin: 0.15rem 0 0.3rem 0;
+        line-height: 1.4;
+        font-size: 0.95rem;
+      }
+
+      .news-details .button {
+        display: inline-block;
+        margin-top: 0.5rem;
+        padding: 0.4rem 1rem;
+        background-color: var(--accent);
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+        font-size: 0.85rem;
+        transition: all 0.2s ease;
+        text-align: center;
+        min-width: 120px;
+      }
+
+      .news-details .button:hover {
+        background-color: #1a3d5c;
+        transform: translateY(-1px);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      }
+
+      .paper-highlight img {
+        width: 100%;
+        border-radius: 4px;
+        margin: 1rem 0;
+        border: 1px solid var(--border);
+      }
+
+      .paper-highlight h3 {
+        margin-bottom: 0.5rem;
+        color: var(--accent);
+        font-size: 1.2rem;
+      }
+
+      .paper-highlight p {
+        margin: 0.5rem 0;
+        line-height: 1.5;
+      }
+
+      .button {
+        display: inline-block;
+        margin-top: 0.8rem;
+        padding: 0.5rem 1rem;
+        background-color: var(--accent);
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+        font-size: 0.9rem;
+        transition: background-color 0.2s ease;
+      }
+
+      .button:hover {
+        background-color: #1a3d5c;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .hero {
+          grid-template-columns: 1fr;
+        }
+        
+        .hero > div:first-child {
+          padding-right: 0;
+        }
+      }
+
       section {
         margin: 3.2rem 0;
         scroll-margin-top: clamp(5rem, 10vh, 6.5rem);
@@ -384,25 +516,34 @@
       </section>
 
       <!-- 最近のニュースを3件掲載。 -->
-      <section id="news">
-        <h2>News</h2>
-        <div class="item-stack">
-          <article class="news-item">
-            <time>2025.11</time>
-            <h3>Yutani et al. 2025 has been published in ApJ</h3>
-            <p>You can find the paper <a href="https://ui.adsabs.harvard.edu/abs/2025ApJ...993...98Y/abstract">here</a>.</p>
-          </article>
-          <article class="news-item">
-            <time>2025.08</time>
-            <h3>Invited talk at Nagoya University</h3>
-            <p>I introduced my recent galaxy merger simulation results at 11th Galaxy Evolution Workshop.</p>
-          </article>
-          <article class="news-item">
-            <time>2025.06</time>
-            <h3>I reported my Ph.D. thesis in the CPS seminor.</h3>
-            <p>The abstract is available <a href="https://www.cps-jp.org/calendar/fy2025/2025-06-30/index.htm.en">here</a>.</p>
-          </article>
+      <section id="news" class="grid-container">
+        <div class="news-content">
+          <h2>News</h2>
+          <div class="item-stack">
+            <article class="news-item">
+              <time>2025.11</time>
+              <h3>Yutani et al. 2025 has been published in ApJ!</h3>
+              <p>You can find the paper <a href="https://ui.adsabs.harvard.edu/abs/2025ApJ...993...98Y/abstract">here</a>.</p>
+            </article>
+            <article class="news-item">
+              <time>2025.08</time>
+              <h3>Invited talk at Nagoya University</h3>
+              <p>I introduced my recent galaxy merger simulation results at 11th Galaxy Evolution Workshop.</p>
+            </article>
+            <article class="news-item">
+              <time>2025.06</time>
+              <h3>I reported my Ph.D. thesis in the CPS seminor.</h3>
+              <p>The abstract is available <a href="https://www.cps-jp.org/calendar/fy2025/2025-06-30/index.htm.en">here</a>.</p>
+            </article>
+          </div>
         </div>
+        
+        <aside class="news-details">
+          <h3>Featured Research</h3>
+          <img src="Yutani25-clump-orbi.png" alt="Dynamical Mechanism of Episodic Gas Accretion">
+          <p>We found that the clumpy accretion mechanism in spiral galaxies (Yutani et al. 2025).</p>
+          <a href="https://ui.adsabs.harvard.edu/abs/2025ApJ...993...98Y/abstract" class="button">Read the Paper</a>
+        </aside>
       </section>
       
       <section id="publications">
