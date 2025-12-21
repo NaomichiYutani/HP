@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<!--
+  Naomichi Yutani research homepage
+  コメントを追加して、初学者でも構造を追いやすいようにしています。
+-->
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Naomichi Yutani | Astrophysicist</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;600&family=Source+Sans+3:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /*
+        :root には CSS のカスタムプロパティ(変数)をまとめています。
+        色やフォントサイズを一括で調整できるようにするためです。
+      */
+      :root {
+        --bg: #f7f8fb;
+        --surface: #ffffff;
+        --text: #202533;
+        --text-soft: #5a6072;
+        --accent: #28527a;
+        --border: #d7dbe5;
+        font-size: clamp(15px, 0.9vw + 12px, 18px);
+      }
+
+      /* どの要素でも box-sizing を統一して、余白計算をシンプルにします。 */
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      /* ページ全体の基本スタイル。背景色と本文フォントなどを指定。 */
+      body {
+        margin: 0;
+        font-family: "Source Sans 3", "Hiragino Sans", sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.66;
+      }
+
+      /* ヘッダーは常に画面上部に固定するため position: sticky を利用。 */
+      header {
+        background: var(--surface);
+        border-bottom: 1px solid var(--border);
+        position: sticky;
+        top: 0;
+        z-index: 10;
+      }
+
+      /* コンテンツ幅を中央に揃え、左右に余白を作るラッパー。 */
+      .container {
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 0 1.5rem;
+      }
+
+      .navbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1rem 0;
+      }
+
+      .brand {
+        display: flex;
+        flex-direction: column;
+        gap: 0.15rem;
+      }
+
+      .brand span:first-child {
+        font-family: "Merriweather", "Yu Mincho", serif;
+        font-size: clamp(1.8rem, 3vw, 2.2rem);
+        font-weight: 700;
+      }
+
+      .brand span:last-child {
+        font-size: clamp(0.95rem, 1.5vw, 1.1rem);
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        color: var(--text-soft);
+        font-weight: 600;
+      }
+
+      /* ナビゲーションリンクは横並び。スマホではメディアクエリで上書き。 */
+      nav {
+        display: flex;
+        gap: 1.2rem;
+      }
+
+      nav a {
+        font-size: clamp(0.75rem, 1vw, 0.9rem);
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        text-decoration: none;
+        color: var(--text-soft);
+        font-weight: 600;
+      }
+
+      nav a:hover,
+      nav a:focus {
+        color: var(--accent);
+      }
+
+      /* スマホ用のナビ開閉ボタン。PCでは非表示にし、後で表示を切り替えます。 */
+      .nav-toggle {
+        display: none;
+        background: none;
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        padding: 0.4rem 0.8rem;
+        font-size: clamp(0.95rem, 1.4vw, 1rem);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        font-weight: 600;
+      }
+
+      /* メイン領域に上下の余白を確保します。 */
+      main {
+        padding: 2rem 0 4rem;
+      }
+
+      section {
+        margin: 3.2rem 0;
+        scroll-margin-top: clamp(5rem, 10vh, 6.5rem);
+      }
+
+      h1,
+      h2,
+      h3 {
+        font-family: "Merriweather", "Yu Mincho", serif;
+        margin: 0;
+        color: var(--accent);
+      }
+
+      h2 {
+        font-size: 1.8rem;
+        margin-bottom: 1rem;
+      }
+
+      h3 {
+        font-size: 1.1rem;
+      }
+
+      p {
+        margin: 0 0 1rem;
+      }
+
+      /* ヒーローエリア（最初の紹介部分）は Grid でレイアウト。 */
+      .hero {
+        display: grid;
+        gap: 2rem;
+      }
+
+      .hero h1 {
+        font-size: clamp(2.1rem, 4vw, 2.8rem);
+        margin-bottom: 0.8rem;
+      }
+
+      .hero .lead {
+        font-size: 1.05rem;
+        color: var(--text-soft);
+      }
+
+      /* 右側のプロフィール詳細。枠線と角丸でカード風にしています。 */
+      .hero-details {
+        display: grid;
+        gap: 1rem;
+        padding: 1.2rem 1.4rem;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+      }
+
+      .hero-details span {
+        display: block;
+      }
+
+      .hero-details span.label {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: var(--text-soft);
+      }
+
+      .section-intro {
+        color: var(--text-soft);
+        max-width: 700px;
+      }
+
+      /* リストをシンプルなカード型に表示するための共通クラス。 */
+      .list-simple {
+        display: grid;
+        gap: 1rem;
+        padding: 1.4rem;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+      }
+
+      .list-simple li {
+        margin: 0 0 0.4rem;
+      }
+
+      .list-simple strong {
+        display: block;
+        font-size: 1rem;
+      }
+
+      /* 論文リストを [1], [2] 形式で表示するためのスタイル。 */
+      .pub-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        counter-reset: pub;
+      }
+
+      .pub-list li {
+        counter-increment: pub;
+        position: relative;
+        padding-left: 2.4rem;
+        margin-bottom: 0.9rem;
+      }
+
+      .pub-list li::before {
+        content: "[" counter(pub) "]";
+        position: absolute;
+        left: 0;
+        color: var(--accent);
+        font-weight: 600;
+      }
+
+      /* item-stack は上下にカードを並べるためのヘルパークラス。 */
+      .item-stack {
+        display: grid;
+        gap: 1rem;
+      }
+
+      .news-item time {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        color: var(--text-soft);
+      }
+
+      /* 外部リンクをバッジ風に並べます。 */
+      .links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.8rem;
+      }
+
+      .links a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.28rem 0.85rem;
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        text-decoration: none;
+        color: var(--accent);
+        font-size: 0.9rem;
+      }
+
+      .contact-grid {
+        display: grid;
+        gap: 1.2rem;
+      }
+
+      /* フッターは薄い境界線で区切り、背景を白に戻します。 */
+      footer {
+        padding: 2rem 0 2.5rem;
+        border-top: 1px solid var(--border);
+        background: var(--surface);
+      }
+
+      footer p {
+        color: var(--text-soft);
+        font-size: 0.85rem;
+        margin: 0.2rem 0;
+      }
+
+      /*
+        幅が広い画面では hero と contact セクションを 2 カラムにします。
+      */
+      @media (min-width: 780px) {
+        .hero {
+          grid-template-columns: 2fr 1fr;
+          align-items: start;
+        }
+
+        .contact-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      /*
+        スマホ幅ではナビゲーションをモーダル風に表示し、開閉ボタンを表示。
+      */
+      @media (max-width: 720px) {
+        nav {
+          position: fixed;
+          inset: 60px 1.5rem auto;
+          flex-direction: column;
+          background: var(--surface);
+          border: 1px solid var(--border);
+          padding: 1rem;
+          border-radius: 8px;
+          box-shadow: 0 10px 30px rgba(25, 31, 45, 0.08);
+          transform: translateY(-140%);
+          transition: transform 0.25s ease;
+        }
+
+        nav.open {
+          transform: translateY(0);
+        }
+
+        .nav-toggle {
+          display: inline-flex;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="container navbar">
+        <!-- サイト名と専門分野。PCでもスマホでも常に表示します。 -->
+        <a href="#" class="brand">
+          <span>NAOMICHI YUTANI</span>
+        </a>
+        <!-- スマホでナビゲーションを開くボタン。PCでは display: none になります。 -->
+        <button class="nav-toggle" aria-expanded="false">MENU</button>
+        <nav>
+          <a href="#news">News</a>
+          <a href="#publications">Publications</a>
+          <a href="#conferences">Conferences</a>
+          <a href="#seminars">Seminars</a>
+          <a href="#funding">Funding</a>
+          <a href="#onsen">Onsen &amp; Sauna</a>
+          <a href="#links">Links</a>
+        </nav>
+      </div>
+    </header>
+
+    <!-- メインコンテンツ。 container で左右の余白を統一します。 -->
+    <main class="container">
+      <section id="about" class="hero">
+        <div>
+          <!-- ヒーロー（自己紹介）部分の見出しと説明文。 -->
+          <h2>Naomichi Yutani / 油谷 直道</h2>
+          <p class="lead">
+            I am a postdoctoral researcher at Kobe University, Japan. My research focuses on the co-evolution of galaxies and black holes, using N-body/SPH simulations and pseudo observations.
+          </p>
+        </div>
+        <!-- 右側の情報カード。所属・キーワード・連絡先をまとめています。 -->
+        <aside class="hero-details">
+          <div>
+            <span class="label">Affiliation</span>
+            <span>神戸大学 理学部 惑星学科</span>
+          </div>
+          <div>
+            <span class="label">Contact</span>
+            <span>yutaninm [at] gmail.com</span>
+            <span>yutaninm [at] people.kobe-u.ac.jp</span>
+          </div>
+        </aside>
+      </section>
+
+      <!-- 最近のニュースを3件掲載。 -->
+      <section id="news">
+        <h2>News</h2>
+        <div class="item-stack">
+          <article class="news-item">
+            <time>2025.11</time>
+            <h3>Yutani et al. 2025 has been published in ApJ</h3>
+            <p>You can find the paper <a href="https://ui.adsabs.harvard.edu/abs/2025ApJ...993...98Y/abstract">here</a>.</p>
+          </article>
+          <article class="news-item">
+            <time>2025.08</time>
+            <h3>Invited talk at Nagoya University</h3>
+            <p>I introduced my recent galaxy merger simulation results at 11th Galaxy Evolution Workshop.</p>
+          </article>
+          <article class="news-item">
+            <time>2025.06</time>
+            <h3>I reported my Ph.D. thesis in the CPS seminor.</h3>
+            <p>The abstract is available <a href="https://www.cps-jp.org/calendar/fy2025/2025-06-30/index.htm.en">here</a>.</p>
+          </article>
+        </div>
+      </section>
+      
+      <section id="publications">
+        <h2>Refereed Publications</h2>
+        <div class="list-simple">
+          <ol class="pub-list">
+            <li>
+              <strong>Yutani et al. 2025, ApJ</strong>
+              Dynamical Mechanism of Episodic Gas Accretion to the Central Region of Spiral Galaxies
+            </li>
+            <li>
+              <strong>Yoshida et al. 2025, ApJ</strong>
+              Dust-obscured Galaxies with Broken Power-law Spectral Energy Distributions Discovered by UNIONS
+            </li>
+            <li>
+              <strong>Yutani et al. 2024, ApJ</strong>
+              Apparent Effect of Dust Extinction on the Observed Outflow Velocity of Ionized Gas in Galaxy Mergers
+            </li>
+            <li>
+              <strong>Yutani et al. 2022, ApJ</strong>
+              Origin and Evolution of Dust-obscured Galaxies in Galaxy Mergers
+            </li>
+            <li>
+              <strong>Toba et al. 2022, A&A</strong>
+              The eROSITA Final Equatorial-Depth Survey (eFEDS). A multiwavelength view of WISE mid-infrared galaxies/active galactic nuclei
+            </li>
+            <li>
+              <strong>Kawaguchi, Yutani, and Wada 2020, ApJ</strong>
+              Mass Accretion toward Black Holes in the Final Phase of Galaxy Mergers
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <section id="conferences">
+        <h2>International Conferences</h2>
+        <div class="list-simple">
+          <ol class="pub-list">
+            <li>
+              <strong>Invited Speaker, “Self-Regulated Convergence to the Local SMBH–Bulge Relation by Galaxy Mergers”</strong>
+              Naomichi Yutani, Takayuki Saitoh — 11th GALAXY EVOLUTION WORKSHOP, Nagoya University (August 2025)
+            </li>
+            <li>
+              <strong>“The Origin Of Molecular Clouds in the CND”</strong>
+              Naomichi Yutani, Nozomu Kawakatu, Takayuki Saitoh, Keiichi Wada — Behind The Curtain Of Dust V, Ice Hotel (Jukkasjärvi, Sweden) (March 2025)
+            </li>
+            <li>
+              <strong>“Apparent Effect of Dust Extinction on the Observed Outflow Velocity of Ionized Gas in Galaxy Mergers”</strong>
+              Naomichi Yutani, Yoshiki Toba, Keiichi Wada — East-Asia AGN Workshop 2023, Kagoshima University (September 2023)
+            </li>
+            <li>
+              <strong>“IR pseudo-observations of merger driven DOGs and their evolution”</strong>
+              Naomichi Yutani, Keiichi Wada, Yoshiki Toba — East-Asia AGN Workshop 2021, China (Online) (October 2021)
+            </li>
+            <li>
+              <strong>“IR pseudo-observations of merger driven DOGs and their evolution”</strong>
+              Naomichi Yutani, Keiichi Wada, Yoshiki Toba — Galaxy Evolution Workshop 2020, Kagoshima University (February 2021)
+            </li>
+            <li>
+              <strong>“IR pseudo-observations of merger driven DOGs and their evolution”</strong>
+              Naomichi Yutani, Keiichi Wada, Yoshiki Toba — CON-quest Workshop, Sweden (Online) (January 2021)
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <section id="domestic-conferences">
+        <h2>Domestic Conferences </h2>
+        <div class="list-simple">
+          <ol class="pub-list">
+            <li>
+              <strong>“Mass Supply to the Galactic Center by Spiral Arms: On the Origin of Molecular Gas in Galactic Centers”</strong>
+              Naomichi Yutani, Keiichi Wada, Nozomu Kawakatu, Takayuki Saitoh — Japanese Astronomical Society Spring Meeting 2025, Mito Citizen Hall (March 2025)
+            </li>
+            <li>
+              <strong>“Mass Supply to the Galactic Center by Spiral Arms: On the Origin of Molecular Gas in Galactic Centers”</strong>
+              Naomichi Yutani — 37th Theoretical Symposium “Cosmology 100 years: Past and Future”, NAOJ Mitaka Campus (December 2024)
+            </li>
+            <li>
+              <strong>“Spiral and Cloud Formation in the Disk and Angular Momentum Transport to the Galactic Center”</strong>
+              Naomichi Yutani — GMC Lifetime Mini Workshop, Kagoshima University (November 2024)
+            </li>
+            <li>
+              <strong>“Mass Supply Process by Spiral Arms and Gas Clumps in Isolated Galaxy Disks and the Emergence of Active Galactic Nuclei”</strong>
+              Naomichi Yutani — ALMA Workshop 2024: AGN Feeding and Feedback in Massive Galaxies, Kagoshima University (November 2024)
+            </li>
+            <li>
+              <strong>“Mass Transport Mechanism from the Galactic Scale to the Galactic Nucleus Revealed by High Mass Resolution Calculations”</strong>
+              Naomichi Yutani, Nozomu Kawakatu, Takayuki Saitoh, Keiichi Wada — Japanese Astronomical Society Autumn Meeting 2024, Kwansei Gakuin University (September 2024)
+            </li>
+            <li>
+              <strong>“Classification of Explosive Star Formation and Obscured Active Galactic Nuclei using Infrared Continuum”</strong>
+              Naomichi Yutani, Takayuki Saitoh, Satoshi Yamada, Shunsuke Baba, Keiichi Wada — Japanese Astronomical Society Spring Meeting 2024, University of Tokyo (Online) (March 2024)
+            </li>
+            <li>
+              <strong>“Explosive Star Formation and Classification of Buried Active Galactic Nuclei Using Infrared Continuum Radiation”</strong>
+              Naomichi Yutani — Ehime-Kumamoto-Kagoshima Joint Research Presentation, Kagoshima University (February 2024)
+            </li>
+            <li>
+              <strong>“Nature of Photoionized Outflow in the Late Stages of Gas-rich Galaxy Mergers”</strong>
+              Naomichi Yutani, Yoshiki Toba, Keiichi Wada — Japanese Astronomical Society Autumn Meeting 2023, Nagoya University (September 2023)
+            </li>
+            <li>
+              <strong>“Evolution of Photoionized Outflow Velocity in the Late Stages of Galaxy Collisions”</strong>
+              Naomichi Yutani, Yoshiki Toba, Keiichi Wada — Japanese Astronomical Society Spring Meeting 2023, Rikkyo University (March 2023)
+            </li>
+            <li>
+              <strong>“Origin and Evolution of Dust-obscured Galaxies in Galaxy Mergers”</strong>
+              Naomichi Yutani, Yoshiki Toba, Shunsuke Baba, Keiichi Wada — Japanese Astronomical Society Autumn Meeting 2022, Niigata University (September 2022)
+            </li>
+            <li>
+              <strong>“Origin and Evolution of Dust-obscured Galaxies”</strong>
+              Naomichi Yutani, Yoshiki Toba, Shunsuke Baba, Keiichi Wada — AGN Mini-workshop, Kagoshima University (August 2022)
+            </li>
+            <li>
+              <strong>“Origin and Evolution of Merger-driven Dust-obscured Galaxies”</strong>
+              Naomichi Yutani, Keiichi Wada, Yoshiki Toba — Japanese Astronomical Society Spring Meeting 2021, Tokyo Institute of Technology (March 2021)
+            </li>
+            <li>
+              <strong>“Infrared pseudo-observation of Merger-driven DOGs considering AGN-feedback”</strong>
+              Naomichi Yutani, Keiichi Wada, Yoshiki Toba — CfCA Users Meeting 2021, Tokyo Institute of Technology (January 2021)
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <section id="posters">
+        <h2>Posters</h2>
+        <div class="list-simple">
+          <ol class="pub-list">
+            <li>
+              <strong>“Mass Transport Mechanism to Galactic Nuclei in Spiral Galaxies: Effect of Supernova Explosions”</strong>
+              Naomichi Yutani, Keiichi Wada — Mini Workshop on Star Formation, Kagoshima University (June 2024)
+            </li>
+            <li>
+              <strong>“The Origin and Evolution of Dust Obscured Galaxies in the Late Stages of Galaxy Mergers”</strong>
+              Naomichi Yutani, Yoshiki Toba, Shunsuke Baba, Keiichi Wada — 36th Theoretical Symposium, Hirosaki University (December 2023)
+            </li>
+            <li>
+              <strong>“Origin and Evolution of Dust-obscured Galaxies in Galaxy Mergers”</strong>
+              Naomichi Yutani, Yoshiki Toba, Shunsuke Baba, Keiichi Wada — HSC-AGN Face-to-face Meeting, Kagoshima University (December 2022)
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <section id="seminars">
+        <h2>Seminars</h2>
+        <div class="list-simple">
+          <ol class="pub-list">
+            <li>
+              <strong>"Dynamical Mechanism of Episodic Gas Accretion to the Central Region of Spiral Galaxies"</strong>
+              CPS seminar at CPS Conference Room and Online, 30 June 2025.
+            </li>
+            <li>
+              <strong>"Mass Transport Mechanism from the Galactic Scale to the Galactic Nucleus Revealed by High Mass Resolution Calculations"</strong>
+              Seminar at Ehime University, 2 July 2024.
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- 取得した科研費・ファンドの一覧。 -->
+      <section id="funding">
+        <h2>Funding</h2>
+        <div class="list-simple">
+          <ul>
+            <li>
+              <strong>2024–2026 JSPS KAKENHI (DC2)</strong>
+              「高分解能銀河衝突計算による、塵に埋もれた活動銀河核の晴れ上がり機構の物理的理解」(課題番号 24KJ1833)
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="onsen">
+        <h2>Local Onsen &amp; Sauna Picks</h2>
+        <div class="list-simple">
+          <p>
+            My favolite local onsen and sauna in japan. You can check the list from the link below.
+          </p>
+          <div class="links">
+            <a href="https://maps.app.goo.gl/eNVKfEE1NBLz4AyH6" target="_blank" rel="noopener">Shared Google Map</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- 連絡先と関連リンクのまとめ。 -->
+      <section id="links">
+        <h2>Links &amp; Contact</h2>
+        <div class="contact-grid">
+          <div class="list-simple">
+            <h3>Office</h3>
+            <p>
+              Department of Planetology, Graduate School of Science, Kobe University 1-1 Rokkodai-cho,Nada-ku, Kobe, Hyogo 657-8501, Japan
+            </p>
+          </div>
+          <div class="list-simple">
+            <h3>Resources</h3>
+            <div class="links">
+              <a href="CV_NY.pdf">CV (PDF)</a>
+              <a href="https://ui.adsabs.harvard.edu/search/filter_database_fq_database=AND&filter_database_fq_database=((database%3Aastronomy%20OR%20database%3Aphysics))&filter_database_fq_database=database%3A%22astronomy%22&fq=%7B!type%3Daqp%20v%3D%24fq_database%7D&fq_database=(((database%3Aastronomy%20OR%20database%3Aphysics))%20AND%20database%3A%22astronomy%22)&q=%20%20first_author%3A%22yutani%2C%20naomichi%22&sort=date%20desc%2C%20bibcode%20desc&p_=0">NASA/ADS</a>
+              <a href="https://orcid.org/0009-0008-8432-7460">ORCID</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- フッターには所属と著作権の表示のみ。 -->
+    <footer>
+      <div class="container">
+        <p>© 2025 Naomichi Yutani</p>
+      </div>
+    </footer>
+
+    <script>
+      // nav-toggle ボタンでメニューの開閉を制御します。
+      const toggle = document.querySelector(".nav-toggle");
+      const nav = document.querySelector("nav");
+
+      toggle?.addEventListener("click", () => {
+        // aria-expanded を更新してスクリーンリーダーでも状態がわかるようにする。
+        const expanded = toggle.getAttribute("aria-expanded") === "true";
+        toggle.setAttribute("aria-expanded", String(!expanded));
+        nav.classList.toggle("open");
+      });
+
+      nav?.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", () => {
+          // メニュー内のリンクを押したら自動で閉じます。
+          nav.classList.remove("open");
+          toggle?.setAttribute("aria-expanded", "false");
+        });
+      });
+    </script>
+  </body>
+</html>
