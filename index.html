@@ -362,6 +362,80 @@
         font-size: 1rem;
       }
 
+
+      /* 取得ファンドを、日付から始まるシンプルな2カラムで表示。 */
+      .funding-list {
+        display: grid;
+        gap: 0;
+        padding: 2.2rem;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+      }
+
+      .funding-item {
+        display: grid;
+        grid-template-columns: 150px 1fr;
+        gap: 1rem;
+      }
+
+      .funding-item + .funding-item {
+        border-top: 1px solid rgba(31, 79, 130, 0.14);
+        margin-top: 0.85rem;
+        padding-top: 2rem;
+      }
+
+      .funding-period {
+        color: var(--text-soft);
+        font-size: 0.96rem;
+        font-weight: 600;
+        letter-spacing: 0.01em;
+        line-height: 1.6;
+        white-space: nowrap;
+      }
+
+      .funding-body {
+        min-width: 0;
+      }
+
+      .funding-award,
+      .funding-agency {
+        color: var(--text);
+        font-size: 1.02rem;
+        font-weight: 650;
+        line-height: 1.65;
+      }
+
+      .funding-award .normal-ja {
+        font-weight: 400;
+      }
+
+      .funding-number {
+        color: var(--text-soft);
+        font-size: 0.92rem;
+        font-weight: 400;
+        line-height: 1.6;
+        margin-top: 0.1rem;
+      }
+
+      .funding-title {
+        color: var(--text);
+        font-size: 0.98rem;
+        font-weight: 400;
+        line-height: 1.8;
+        margin-top: 0.45rem;
+      }
+
+      @media (max-width: 760px) {
+        .funding-list {
+          padding: 1.4rem;
+        }
+
+        .funding-item {
+          grid-template-columns: 1fr;
+          row-gap: 0.35rem;
+        }
+      }
       /* 論文リストを [1], [2] 形式で表示するためのスタイル。 */
       .pub-list {
         list-style: none;
@@ -731,26 +805,39 @@
       </section>
 
       <!-- 取得した科研費・ファンドの一覧。 -->
-      <section id="Funding and Project">
-        <h2>Funding</h2>
-        <div class="list-simple">
-          <ul>
-            <li>
-              <strong>2026.5-2026.11 </strong>
-              <strong>The JHPCN-Q (萌芽型課題研究) by Research Institute for Information Technology, Kyushu University </strong>
-              「宇宙初期における、銀河衝突を介した超巨大ブラックホール成長機構の解明」
-            </li>
-            <li>
-              <strong>2026.4-2029.3</strong>
-              <strong>JSPS KAKENHI PD, Grant Number:26KJ0219</strong>
-              「高分解能銀河衝突計算で探る、埋もれた活動銀河核形成条件と銀河共進化機構の解明」
-            </li>
-            <li>
-              <strong>2024.4-2026.3</strong>
-              <strong>JSPS KAKENHI DC2, Grant Number:24KJ1833</strong>
-              「高分解能銀河衝突計算による、塵に埋もれた活動銀河核の晴れ上がり機構の物理的理解」
-            </li>
-          </ul>
+      <section id="funding">
+        <h2>Funding - Project</h2>
+
+        <div class="funding-list">
+          <div class="funding-item">
+            <div class="funding-period">2026.5 – 2026.11</div>
+            <div class="funding-body">
+              <div class="funding-award">
+                The JHPCN-Q <span class="normal-ja">(萌芽型課題研究)</span> by Research Institute for Information Technology, Kyushu University
+              </div>
+              <div class="funding-title">
+                宇宙初期における、銀河衝突を介した超巨大ブラックホール成長機構の解明
+              </div>
+            </div>
+          </div>
+
+          <div class="funding-item">
+            <div class="funding-period">2026.4 – 2029.3</div>
+            <div class="funding-body">
+              <div class="funding-agency">JSPS KAKENHI PD</div>
+              <div class="funding-title">高分解能銀河衝突計算で探る、埋もれた活動銀河核形成条件と銀河共進化機構の解明</div>
+              <div class="funding-number">Grant Number: 26KJ0219</div>
+            </div>
+          </div>
+
+          <div class="funding-item">
+            <div class="funding-period">2024.4 – 2026.3</div>
+            <div class="funding-body">
+              <div class="funding-agency">JSPS KAKENHI DC2</div>
+              <div class="funding-title">高分解能銀河衝突計算による、塵に埋もれた活動銀河核の晴れ上がり機構の物理的理解</div>
+              <div class="funding-number">Grant Number: 24KJ1833</div>
+            </div>
+          </div>
         </div>
       </section>
 
