@@ -70,9 +70,12 @@
       }
 
       .brand {
-        display: flex;
-        flex-direction: column;
-        gap: 0.15rem;
+        text-decoration: none;
+      }
+
+      .brand:hover {
+        text-decoration: underline;
+        text-decoration-color: #2563eb;
       }
 
       .brand span:first-child {
@@ -498,15 +501,27 @@
 
       /* フッターは薄い境界線で区切り、背景を白に戻します。 */
       footer {
-        padding: 2rem 0 2.5rem;
-        border-top: 1px solid var(--border);
-        background: var(--surface);
+            padding: 2rem 0 1.5rem;
+            border-top: 1px solid var(--border);
+
+            background:
+                linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0)),
+                url("footer_bg.jpg");
+
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+
+            min-height: 250px;
+
+            display: flex;
+            align-items: flex-end;
       }
 
       footer p {
-        color: var(--text-soft);
+        color: white;
         font-size: 0.85rem;
-        margin: 0.2rem 0;
+        margin: 0.1rem 0;
       }
 
       /*
