@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<!--
+  Naomichi Yutani research homepage
+  コメントを追加して、初学者でも構造を追いやすいようにしています。
+-->
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Funding – Naomichi Yutani (油谷 直道)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;600&family=Source+Sans+3:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /*
+        :root には CSS のカスタムプロパティ(変数)をまとめています。
+        色やフォントサイズを一括で調整できるようにするためです。
+      */
+      :root {
+        --bg: #f7f8fb;
+        --surface: #ffffff;
+        --text: #202533;
+        --text-soft: #5a6072;
+        --accent: #28527a;
+        --border: #d7dbe5;
+        font-size: clamp(15px, 0.9vw + 12px, 18px);
+      }
+
+      /* どの要素でも box-sizing を統一して、余白計算をシンプルにします。 */
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      /* ページ全体の基本スタイル。背景色と本文フォントなどを指定。 */
+      body {
+        margin: 0;
+        font-family: "Source Sans 3", "Hiragino Sans", sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.66;
+      }
+
+      /* ヘッダーは常に画面上部に固定するため position: sticky を利用。 */
+      header {
+        background: var(--surface);
+        border-bottom: 1px solid var(--border);
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        padding-left: 1.5rem;
+      }
+
+      /* コンテンツ幅を中央に揃え、左右に余白を作るラッパー。 */
+      .container {
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 0 1.5rem;
+      }
+
+      .navbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1rem 0;
+      }
+
+      .brand {
+        text-decoration: none;
+      }
+
+      .brand:hover {
+        text-decoration: underline;
+        text-decoration-color: #2563eb;
+      }
+
+      .brand span:first-child {
+        font-family: "Merriweather", "Yu Mincho", serif;
+        font-size: clamp(1.8rem, 3vw, 2.2rem);
+        font-weight: 700;
+      }
+
+      .brand span:last-child {
+        font-size: clamp(0.95rem, 1.5vw, 1.1rem);
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        color: var(--text-soft);
+        font-weight: 600;
+      }
+
+      /* ナビゲーションリンクは横並び。スマホではメディアクエリで上書き。 */
+      nav {
+        display: flex;
+        gap: 1.2rem;
+      }
+
+      nav a {
+        font-size: clamp(0.65rem, 0.9vw, 0.8rem);
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+        text-decoration: none;
+        color: var(--text-soft);
+        font-weight: 600;
+      }
+
+      nav a:hover,
+      nav a:focus {
+        color: var(--accent);
+      }
+
+      /* スマホ用のナビ開閉ボタン。PCでは非表示にし、後で表示を切り替えます。 */
+      .nav-toggle {
+        display: none;
+        background: none;
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        padding: 0.4rem 0.8rem;
+        margin-right: 1.5rem;
+        font-size: clamp(0.95rem, 1.4vw, 1rem);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        font-weight: 600;
+      }
+
+      /* メイン領域に上下の余白を確保します。 */
+      main {
+        padding: 2rem 0 4rem;
+      }
+
+      /* Grid layout for news section */
+      .grid-container {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 2rem;
+        align-items: start;
+      }
+
+      .news-content {
+        width: 100%;
+      }
+
+      @media (max-width: 768px) {
+        .grid-container {
+          grid-template-columns: 1fr;
+        }
+        
+        .news-content {
+          order: 1;
+        }
+        
+        .news-details {
+          order: -1;
+          margin-bottom: 2rem;
+        }
+      }
+
+      /* Hero section with two columns */
+      .hero {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        align-items: start;
+        margin-bottom: 3rem;
+      }
+
+      .hero > div:first-child {
+        padding-right: 1rem;
+      }
+
+      /* Paper highlight section */
+      /* News details section - for paper highlights */
+      .news-details {
+        display: grid;
+        gap: 1rem;
+        background: var(--surface);
+        padding: 1rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        margin-top: 1rem;
+      }
+
+      .news-details h3 {
+        font-size: 1.2rem;
+        margin: 0 0 0.15rem 0;
+        color: var(--accent);
+      }
+
+      .news-details img {
+        width: 100%;
+        border-radius: 4px;
+        margin: 0.05rem 0 0.05rem 0;
+        border: 1px solid var(--border);
+      }
+
+      .news-details p {
+        margin: 0.15rem 0 0.3rem 0;
+        line-height: 1.4;
+        font-size: 0.95rem;
+      }
+
+      .news-details .button {
+        display: inline-block;
+        margin-top: 0.5rem;
+        padding: 0.4rem 1rem;
+        background-color: var(--accent);
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+        font-size: 0.85rem;
+        transition: all 0.2s ease;
+        text-align: center;
+        min-width: 120px;
+      }
+
+      .news-details .button:hover {
+        background-color: #1a3d5c;
+        transform: translateY(-1px);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      }
+
+      .paper-highlight img {
+        width: 100%;
+        border-radius: 4px;
+        margin: 1rem 0;
+        border: 1px solid var(--border);
+      }
+
+      .paper-highlight h3 {
+        margin-bottom: 0.5rem;
+        color: var(--accent);
+        font-size: 1.2rem;
+      }
+
+      .paper-highlight p {
+        margin: 0.5rem 0;
+        line-height: 1.5;
+      }
+
+      .button {
+        display: inline-block;
+        margin-top: 0.8rem;
+        padding: 0.5rem 1rem;
+        background-color: var(--accent);
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+        font-size: 0.9rem;
+        transition: background-color 0.2s ease;
+      }
+
+      .button:hover {
+        background-color: #1a3d5c;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .hero {
+          grid-template-columns: 1fr;
+        }
+        
+        .hero > div:first-child {
+          padding-right: 0;
+        }
+      }
+
+      section {
+        margin: 3.2rem 0;
+        scroll-margin-top: clamp(5rem, 10vh, 6.5rem);
+        position: relative;
+        padding-left: 1.5rem;
+        border-left: 3px solid var(--accent);
+        padding-left: 2rem;
+        margin-left: -1.5rem;
+        transition: border-color 0.3s ease;
+      }
+
+      /* ホバー時のアクセント */
+      section:hover {
+        border-left-color: var(--text-soft);
+      }
+
+      h1,
+      h2,
+      h3 {
+        font-family: "Merriweather", "Yu Mincho", serif;
+        margin: 0;
+        color: var(--accent);
+      }
+
+      h2 {
+        font-size: 1.8rem;
+        margin-bottom: 1rem;
+      }
+
+      h3 {
+        font-size: 1.1rem;
+      }
+
+      p {
+        margin: 0 0 1rem;
+      }
+
+      /* ヒーローエリア（最初の紹介部分）は Grid でレイアウト。 */
+      .hero {
+        display: grid;
+        gap: 2rem;
+      }
+
+      .hero h1 {
+        font-size: clamp(2.1rem, 4vw, 2.8rem);
+        margin-bottom: 0.8rem;
+      }
+
+      .hero .lead {
+        font-size: 1.05rem;
+        color: var(--text-soft);
+      }
+
+      /* 右側のプロフィール詳細。枠線と角丸でカード風にしています。 */
+      .hero-details {
+        display: grid;
+        gap: 1rem;
+        padding: 1.2rem 1.4rem;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+      }
+
+      .hero-details span {
+        display: block;
+      }
+
+      .hero-details span.label {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: var(--text-soft);
+      }
+
+      .section-intro {
+        color: var(--text-soft);
+        max-width: 700px;
+      }
+
+      /* リストをシンプルなカード型に表示するための共通クラス。 */
+      .list-simple {
+        display: grid;
+        gap: 1rem;
+        padding: 1.4rem;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+      }
+
+      .list-simple li {
+        margin: 0 0 0.4rem;
+      }
+
+      .list-simple strong {
+        display: block;
+        font-size: 1rem;
+      }
+
+
+      /* 取得ファンドを、日付から始まるシンプルな2カラムで表示。 */
+      .funding-list {
+        display: grid;
+        gap: 0;
+        padding: 2.2rem;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+      }
+
+      .funding-item {
+        display: grid;
+        grid-template-columns: 150px 1fr;
+        gap: 1rem;
+      }
+
+      .funding-item + .funding-item {
+        border-top: 1px solid rgba(31, 79, 130, 0.14);
+        margin-top: 0.85rem;
+        padding-top: 2rem;
+      }
+
+      .funding-period {
+        color: var(--text-soft);
+        font-size: 0.96rem;
+        font-weight: 600;
+        letter-spacing: 0.01em;
+        line-height: 1.6;
+        white-space: nowrap;
+      }
+
+      .funding-body {
+        min-width: 0;
+      }
+
+      .funding-award,
+      .funding-agency {
+        color: var(--text);
+        font-size: 1.02rem;
+        font-weight: 650;
+        line-height: 1.65;
+      }
+
+      .funding-award .normal-ja {
+        font-weight: 400;
+      }
+
+      .funding-number {
+        color: var(--text-soft);
+        font-size: 0.92rem;
+        font-weight: 400;
+        line-height: 1.6;
+        margin-top: 0.1rem;
+      }
+
+      .funding-title {
+        color: var(--text);
+        font-size: 0.98rem;
+        font-weight: 400;
+        line-height: 1.8;
+        margin-top: 0.45rem;
+      }
+
+      @media (max-width: 760px) {
+        .funding-list {
+          padding: 1.4rem;
+        }
+
+        .funding-item {
+          grid-template-columns: 1fr;
+          row-gap: 0.35rem;
+        }
+      }
+      /* 論文リストを [1], [2] 形式で表示するためのスタイル。 */
+      .pub-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        counter-reset: pub;
+      }
+
+      .pub-list li {
+        counter-increment: pub;
+        position: relative;
+        padding-left: 2.4rem;
+        margin-bottom: 0.9rem;
+      }
+
+      .pub-list li::before {
+        content: "[" counter(pub) "]";
+        position: absolute;
+        left: 0;
+        color: var(--accent);
+        font-weight: 600;
+      }
+
+      /* item-stack は上下にカードを並べるためのヘルパークラス。 */
+      .item-stack {
+        display: grid;
+        gap: 1rem;
+      }
+
+      .news-item time {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        color: var(--text-soft);
+      }
+
+      /* 外部リンクをバッジ風に並べます。 */
+      .links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.8rem;
+      }
+
+      .links a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.28rem 0.85rem;
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        text-decoration: none;
+        color: var(--accent);
+        font-size: 0.9rem;
+      }
+
+      .contact-grid {
+        display: grid;
+        gap: 1.2rem;
+      }
+
+      /* フッターは薄い境界線で区切り、背景を白に戻します。 */
+      footer {
+            padding: 2rem 0 1.5rem;
+            border-top: 1px solid var(--border);
+
+            background:
+                linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0)),
+                url("footer_bg.jpg");
+
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+
+            min-height: 250px;
+
+            display: flex;
+            align-items: flex-end;
+      }
+
+      footer p {
+        color: white;
+        font-size: 0.85rem;
+        margin: 0.1rem 0;
+      }
+
+      /*
+        幅が広い画面では hero と contact セクションを 2 カラムにします。
+      */
+      @media (min-width: 780px) {
+        .hero {
+          grid-template-columns: 2fr 1fr;
+          align-items: start;
+        }
+
+        .contact-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      /*
+        スマホ幅ではナビゲーションをモーダル風に表示し、開閉ボタンを表示。
+      */
+      @media (max-width: 720px) {
+        nav {
+          position: fixed;
+          inset: 60px 1.5rem auto;
+          flex-direction: column;
+          background: var(--surface);
+          border: 1px solid var(--border);
+          padding: 1rem;
+          border-radius: 8px;
+          box-shadow: 0 10px 30px rgba(25, 31, 45, 0.08);
+          transform: translateY(-140%);
+          transition: transform 0.25s ease;
+        }
+
+        nav.open {
+          transform: translateY(0);
+        }
+
+        .nav-toggle {
+          display: inline-flex;
+        }
+      }
+      nav a[aria-current="page"] {
+        color: var(--accent);
+      }
+    </style>
+    <link rel="stylesheet" href="theme.css" />
+  </head>
+  <body>
+    <header>
+      <div class="container navbar">
+        <a href="index.html" class="brand">
+          <span>NAOMICHI YUTANI</span>
+        </a>
+        <button class="nav-toggle" aria-expanded="false">MENU</button>
+        <nav>
+          <a href="publications.html">Publications</a>
+          <a href="conferences.html">Conferences &amp; Seminars</a>
+          <a href="funding.html" aria-current="page">Funding</a>
+          <a href="index.html#onsen">Onsen &amp; Sauna</a>
+          <a href="index.html#links">Links</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+      <section id="funding">
+        <h2>Funding - Project</h2>
+
+        <div class="funding-list">
+          <div class="funding-item">
+            <div class="funding-period">2026.5 – 2026.11</div>
+            <div class="funding-body">
+              <div class="funding-award">
+                The JHPCN-Q <span class="normal-ja">(萌芽型課題研究)</span> by Research Institute for Information Technology, Kyushu University
+              </div>
+              <div class="funding-title">
+                宇宙初期における、銀河衝突を介した超巨大ブラックホール成長機構の解明
+              </div>
+            </div>
+          </div>
+
+          <div class="funding-item">
+            <div class="funding-period">2026.4 – 2029.3</div>
+            <div class="funding-body">
+              <div class="funding-agency">JSPS KAKENHI PD</div>
+              <div class="funding-title">高分解能銀河衝突計算で探る、埋もれた活動銀河核形成条件と銀河共進化機構の解明</div>
+              <div class="funding-number">Grant Number: 26KJ0219</div>
+            </div>
+          </div>
+
+          <div class="funding-item">
+            <div class="funding-period">2024.4 – 2026.3</div>
+            <div class="funding-body">
+              <div class="funding-agency">JSPS KAKENHI DC2</div>
+              <div class="funding-title">高分解能銀河衝突計算による、塵に埋もれた活動銀河核の晴れ上がり機構の物理的理解</div>
+              <div class="funding-number">Grant Number: 24KJ1833</div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- フッターには所属と著作権の表示のみ。 -->
+    <footer>
+      <div class="container">
+        <p>© 2025 Naomichi Yutani</p>
+      </div>
+    </footer>
+
+    <script>
+      // nav-toggle ボタンでメニューの開閉を制御します。
+      const toggle = document.querySelector(".nav-toggle");
+      const nav = document.querySelector("nav");
+
+      toggle?.addEventListener("click", () => {
+        // aria-expanded を更新してスクリーンリーダーでも状態がわかるようにする。
+        const expanded = toggle.getAttribute("aria-expanded") === "true";
+        toggle.setAttribute("aria-expanded", String(!expanded));
+        nav.classList.toggle("open");
+      });
+
+      nav?.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", () => {
+          // メニュー内のリンクを押したら自動で閉じます。
+          nav.classList.remove("open");
+          toggle?.setAttribute("aria-expanded", "false");
+        });
+      });
+    </script>
+  </body>
+</html>
